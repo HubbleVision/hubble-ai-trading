@@ -1,0 +1,183 @@
+@import "tailwindcss" source(".");
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-mono: "JetBrains Mono", "Fira Code", "Roboto Mono", monospace;
+  
+  /* Cyberpunk Animations */
+  --animate-glitch: glitch 1s linear infinite;
+  --animate-scanline: scanline 8s linear infinite;
+  --animate-pulse-glow: pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+
+  @keyframes glitch {
+    2%, 64% { transform: translate(2px,0) skew(0deg); }
+    4%, 60% { transform: translate(-2px,0) skew(0deg); }
+    62% { transform: translate(0,0) skew(5deg); }
+  }
+
+  @keyframes scanline {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+  }
+  
+  @keyframes pulse-glow {
+    0%, 100% { opacity: 1; box-shadow: 0 0 10px var(--primary); }
+    50% { opacity: .8; box-shadow: 0 0 20px var(--primary); }
+  }
+}
+
+html,
+body {
+  @apply bg-background text-foreground antialiased font-mono overflow-hidden;
+  color-scheme: dark;
+}
+
+/* Global Cyberpunk Background */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: 
+    linear-gradient(rgba(5, 5, 10, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+    linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  background-size: 100% 2px, 3px 100%;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+@theme inline {
+  --radius-sm: 0px;
+  --radius-md: 2px;
+  --radius-lg: 4px;
+  
+  /* High Contrast Cyberpunk Palette */
+  
+  /* Backgrounds - Deep black/blue for max contrast */
+  --color-background: oklch(0.05 0.02 240);
+  --color-foreground: oklch(0.98 0.02 180); /* Pure white/cyan tint */
+  
+  /* Card backgrounds - Visible separation */
+  --color-card: oklch(0.10 0.03 240);
+  --color-card-foreground: oklch(0.98 0.02 180);
+  
+  --color-popover: oklch(0.08 0.03 240);
+  --color-popover-foreground: oklch(0.98 0.02 180);
+  
+  /* Primary - Electric Neon Cyan */
+  --color-primary: oklch(0.85 0.25 160);
+  --color-primary-foreground: oklch(0.05 0.02 240);
+  
+  /* Secondary - Deep Electric Purple */
+  --color-secondary: oklch(0.35 0.15 290);
+  --color-secondary-foreground: oklch(0.98 0.02 180);
+  
+  /* Muted - Readable Grey/Blue */
+  --color-muted: oklch(0.20 0.05 240);
+  --color-muted-foreground: oklch(0.75 0.05 200); /* Much brighter for readability */
+  
+  /* Accent - Hot Pink */
+  --color-accent: oklch(0.75 0.25 320);
+  --color-accent-foreground: oklch(0.98 0.02 180);
+  
+  /* Destructive - Bright Red */
+  --color-destructive: oklch(0.65 0.25 25);
+  --color-destructive-foreground: oklch(0.98 0.02 180);
+  
+  /* Borders - Visible Lines */
+  --color-border: oklch(0.30 0.10 240);
+  --color-input: oklch(0.25 0.05 240);
+  --color-ring: oklch(0.85 0.25 160);
+  
+  /* Chart Neon Palette - Maximum Pop */
+  --color-chart-1: oklch(0.85 0.25 160); /* Neon Cyan */
+  --color-chart-2: oklch(0.80 0.25 320); /* Neon Magenta */
+  --color-chart-3: oklch(0.90 0.20 100); /* Neon Yellow */
+  --color-chart-4: oklch(0.70 0.20 260); /* Neon Blue */
+  --color-chart-5: oklch(0.75 0.20 30);  /* Neon Orange */
+  
+  --color-sidebar: oklch(0.05 0.02 240);
+  --color-sidebar-foreground: oklch(0.98 0.02 180);
+  --color-sidebar-primary: oklch(0.85 0.25 160);
+  --color-sidebar-primary-foreground: oklch(0.05 0.02 240);
+  --color-sidebar-accent: oklch(0.20 0.05 240);
+  --color-sidebar-accent-foreground: oklch(0.98 0.02 180);
+  --color-sidebar-border: oklch(0.30 0.10 240);
+  --color-sidebar-ring: oklch(0.85 0.25 160);
+}
+
+:root {
+  --radius: 0;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Utility Classes for Cyberpunk UI */
+@layer components {
+  .cyber-border {
+    @apply border border-primary/40 relative shadow-[0_0_10px_rgba(var(--primary),0.1)];
+  }
+  
+  .cyber-border::after {
+    content: "";
+    @apply absolute top-0 right-0 w-2 h-2 border-t-2 border-r-2 border-primary opacity-100 shadow-[0_0_5px_var(--primary)];
+  }
+  
+  .cyber-border::before {
+    content: "";
+    @apply absolute bottom-0 left-0 w-2 h-2 border-b-2 border-l-2 border-primary opacity-100 shadow-[0_0_5px_var(--primary)];
+  }
+
+  .cyber-card {
+    @apply bg-card/80 backdrop-blur-md border-l-2 border-primary hover:border-l-4 hover:border-accent transition-all duration-300 shadow-lg;
+  }
+
+  .neon-text {
+    @apply text-primary drop-shadow-[0_0_8px_rgba(var(--primary),0.8)];
+  }
+  
+  .neon-text-accent {
+    @apply text-accent drop-shadow-[0_0_8px_rgba(var(--accent),0.8)];
+  }
+
+  /* Tech Grid Background */
+  .bg-grid-pattern {
+    background-size: 40px 40px;
+    background-image: linear-gradient(to right, var(--border) 1px, transparent 1px),
+                      linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  }
+}
+
+/* Custom scrollbar styles - Cyberpunk style */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  @apply bg-muted/50;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-primary hover:bg-accent cursor-pointer transition-colors;
+}
+
+/* Firefox support */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) var(--muted);
+}
