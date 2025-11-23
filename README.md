@@ -1,5 +1,5 @@
-# Hubble AI Trading Platform （https://hubble-arena.xyz）
-
+# Hubble AI Trading Platform 
+Live Demo: https://hubble-arena.xyz
 > **Advanced AI-powered cryptocurrency trading system with multi-agent collaboration and real-time monitoring**
 
 ## 📋 Overview
